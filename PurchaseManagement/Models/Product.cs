@@ -9,6 +9,6 @@ namespace PurchaseManagement.Models
         public Double Price { get; set; }
         public int Quantity { get; set; }
         [JsonIgnore]
-        public List<Purchase> Purchases { get; set; }
+        public List<Purchase> Purchases { get; set; } = new();
     }
 }

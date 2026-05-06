@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PurchaseManagement.Data;
+using PurchaseManagement.DTO;
 using PurchaseManagement.Models;
 
 namespace PurchaseManagement.Controllers
@@ -35,8 +36,27 @@ namespace PurchaseManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Client>> Post(Client client)
+        public async Task<ActionResult<Client>> Post(ClientPostDTO dto)
         {
+            if(dto.Cpf.Length != 11)
+            {
+                return BadRequest("CPF Invalid");
+            }
+
+            var existCpf = await _context.Tb_Client.AnyAsync(c => c.Cpf == dto.Cpf);
+
+            if (existCpf)
+            {
+                return BadRequest("Cpf already registered");
+            }
+
+            var client = new Client
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                Cpf = dto.Cpf
+            };
+
             var cli = await _context.Tb_Client.AddAsync(client);
 
             await _context.SaveChangesAsync();
