@@ -12,6 +12,7 @@ namespace PurchaseManagement.Models
         public Guid ProductId { get; set; }
         [JsonIgnore]
         public Product Product { get; set; }
+        public int QuantityPurchase { get; set; }
         public DateTimeOffset PurchaseDate { get; set; } = DateTimeOffset.UtcNow;
     }
 }
