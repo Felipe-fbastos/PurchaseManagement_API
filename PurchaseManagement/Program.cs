@@ -11,18 +11,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 
-options.UseSqlServer("Server=localhost,1433;Database=PurchaseManagement;User Id=sa;Password=*123456fE*;TrustServerCertificate=True;")
+options.UseSqlServer(builder.Configuration.GetConnectionString("Somee"))
 
 );
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 
