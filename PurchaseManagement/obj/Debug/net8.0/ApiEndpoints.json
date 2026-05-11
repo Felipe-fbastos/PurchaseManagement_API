@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PurchaseManagement.Models.Client, PurchaseManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PurchaseManagement.DTO.Client.Response.ClientGetDTOResponse, PurchaseManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -29,13 +29,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "PurchaseManagement.DTO.ClientPostDTO",
+        "Type": "PurchaseManagement.DTO.Client.Request.ClientPostDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PurchaseManagement.Models.Client",
+        "Type": "PurchaseManagement.DTO.Client.Request.ClientPostDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -54,8 +54,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "client",
-        "Type": "PurchaseManagement.Models.Client",
+        "Name": "dto",
+        "Type": "PurchaseManagement.DTO.Client.Request.ClientPatchDTO",
         "IsRequired": true
       },
       {
@@ -66,7 +66,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PurchaseManagement.Models.Client",
+        "Type": "PurchaseManagement.DTO.Client.Request.ClientPatchDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -112,7 +112,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PurchaseManagement.Models.Product, PurchaseManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PurchaseManagement.DTO.Product.Response.ProductGetDTO, PurchaseManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -132,13 +132,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "PurchaseManagement.DTO.ProductPostDTO",
+        "Type": "PurchaseManagement.DTO.Product.Request.ProductPostDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PurchaseManagement.Models.Product",
+        "Type": "PurchaseManagement.DTO.Product.Request.ProductPostDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -163,13 +163,13 @@
       },
       {
         "Name": "dto",
-        "Type": "PurchaseManagement.DTO.ProductPatchDTO",
+        "Type": "PurchaseManagement.DTO.Product.Request.ProductPatchDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PurchaseManagement.Models.Product",
+        "Type": "PurchaseManagement.DTO.Product.Request.ProductPatchDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -215,13 +215,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "PurchaseManagement.DTO.PurchasePostDTO",
+        "Type": "PurchaseManagement.DTO.Purchase.Request.PurchasePostDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PurchaseManagement.Models.Purchase",
+        "Type": "PurchaseManagement.DTO.Purchase.Response.PurchaseResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

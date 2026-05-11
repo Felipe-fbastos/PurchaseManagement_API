@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PurchaseManagement.DTO
+namespace PurchaseManagement.DTO.Client.Request
 {
  
     public class ClientPostDTO 

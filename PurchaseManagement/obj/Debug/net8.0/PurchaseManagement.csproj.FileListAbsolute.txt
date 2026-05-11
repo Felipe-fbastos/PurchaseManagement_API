@@ -142,3 +142,6 @@ C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\obj\Deb
 C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\obj\Debug\net8.0\PurchaseManagement.genruntimeconfig.cache
 C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\obj\Debug\net8.0\ref\PurchaseManagement.dll
 C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\obj\Debug\net8.0\PurchaseManagement.sourcelink.json
+C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\bin\Debug\net8.0\Mapster.dll
+C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\bin\Debug\net8.0\Mapster.Core.dll
+C:\Users\Felipe\Desktop\Estudos_C#\PurchaseManagement\PurchaseManagement\bin\Debug\net8.0\Mapster.DependencyInjection.dll

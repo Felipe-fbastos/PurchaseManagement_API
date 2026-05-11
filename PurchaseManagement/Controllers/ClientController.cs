@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PurchaseManagement.Data;
-using PurchaseManagement.DTO;
+using PurchaseManagement.DTO.Client.Request;
+using PurchaseManagement.DTO.Client.Response;
 using PurchaseManagement.Models;
 
 namespace PurchaseManagement.Controllers
@@ -20,7 +22,7 @@ namespace PurchaseManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> Get()
+        public async Task<ActionResult<IEnumerable<ClientGetDTOResponse>>> Get()
         {
             var client = await _context.Tb_Client.ToListAsync();
 
@@ -32,11 +34,13 @@ namespace PurchaseManagement.Controllers
                 return NoContent();
             }
 
-            return Ok(client);
+           var response = client.Adapt<List<ClientGetDTOResponse>>();
+           
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Client>> Post(ClientPostDTO dto)
+        public async Task<ActionResult<ClientPostDTO>> Post(ClientPostDTO dto)
         {
             if(dto.Cpf.Length != 11)
             {
@@ -50,22 +54,21 @@ namespace PurchaseManagement.Controllers
                 return BadRequest("Cpf already registered");
             }
 
-            var client = new Client
-            {
-                Name = dto.Name,
-                Email = dto.Email,
-                Cpf = dto.Cpf
-            };
+            // Transformando DTO em Entity
+            var client = dto.Adapt<Client>();
 
             var cli = await _context.Tb_Client.AddAsync(client);
 
             await _context.SaveChangesAsync();
 
-            return Ok(client);
+            // Transformando Entity em DTO
+            var response = client.Adapt<ClientGetDTOResponse>();
+
+            return Ok(response);
         }
 
         [HttpPatch]
-        public async Task<ActionResult<Client>> Patch(Client client, Guid id)
+        public async Task<ActionResult<ClientPatchDTO>> Patch(ClientPatchDTO dto, Guid id)
         {
             var exist = await _context.Tb_Client.FindAsync(id);
 
@@ -74,32 +77,23 @@ namespace PurchaseManagement.Controllers
                 return NotFound();
             }
 
-            if (client.Name != null && string.IsNullOrEmpty(client.Name))
+            if (dto.Name != null && string.IsNullOrEmpty(dto.Name))
             {
                 return BadRequest("invalid Name");
             }
-            if (client.Email != null && string.IsNullOrEmpty(client.Email))
-            {
-                return BadRequest("Invalid Email");
-            }
-            if (client.Cpf != null && string.IsNullOrEmpty(client.Cpf))
+            if (dto.Email != null && string.IsNullOrEmpty(dto.Email))
             {
                 return BadRequest("Invalid Email");
             }
 
-            if (client.Name != null)
+            if (dto.Name != null)
             {
-                exist.Name = client.Name;
+                exist.Name = dto.Name;
             }
 
-            if (client.Email != null)
+            if (dto.Email != null)
             {
-                exist.Email = client.Email;
-            }
-
-            if (client.Cpf != null)
-            {
-                exist.Cpf = client.Cpf;
+                exist.Email = dto.Email;
             }
 
             await _context.SaveChangesAsync();

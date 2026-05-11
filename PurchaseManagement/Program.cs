@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PurchaseManagement.Data;
+using PurchaseManagement.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Somee"))
 
 );
+builder.Services.RegisterMaps();
+
 
 var app = builder.Build();
 
@@ -29,3 +32,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

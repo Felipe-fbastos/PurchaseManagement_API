@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PurchaseManagement.Data;
-using PurchaseManagement.DTO;
+using PurchaseManagement.DTO.Purchase.Request;
+using PurchaseManagement.DTO.Purchase.Response;
 using PurchaseManagement.Models;
 
 namespace PurchaseManagement.Controllers
@@ -18,7 +21,7 @@ namespace PurchaseManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Purchase>> PostPurchase(PurchasePostDTO dto)
+        public async Task<ActionResult<PurchaseResponseDTO>> PostPurchase(PurchasePostDTO dto)
         {
             var client = await _context.Tb_Client.FindAsync(dto.ClientId);
             if(client == null)
@@ -36,21 +39,23 @@ namespace PurchaseManagement.Controllers
             {
                 return BadRequest($"Insufficient stock we have only {product.Quantity} this product");
             }
-
+            // Decrementado a quantidade comprada
             product.Quantity -= dto.QuantityPurchase;
 
-            var purchase = new Purchase
-            {
-                ClientId = dto.ClientId,
-                ProductId = dto.ProductId,
-                QuantityPurchase = dto.QuantityPurchase,
-            };
+            var purchase = dto.Adapt<Purchase>();
           
              _context.Tb_Purchases.Add(purchase);
 
             await _context.SaveChangesAsync();
 
-            return Ok(purchase);
+            purchase = await _context.Tb_Purchases
+                .Include(p => p.Client)
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync();
+
+            var response = purchase.Adapt<PurchaseResponseDTO>();
+
+            return Ok(response);
 
         }
     }

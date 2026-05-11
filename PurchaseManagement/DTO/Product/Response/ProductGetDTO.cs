@@ -1,6 +1,6 @@
-﻿namespace PurchaseManagement.DTO
+﻿namespace PurchaseManagement.DTO.Product.Response
 {
-    public class ProductPostDTO
+    public class ProductGetDTO
     {
         public string Name { get; set; }
         public Double Price { get; set; }

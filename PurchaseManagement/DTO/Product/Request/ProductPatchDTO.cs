@@ -1,4 +1,4 @@
-﻿namespace PurchaseManagement.DTO
+﻿namespace PurchaseManagement.DTO.Product.Request
 {
     public class ProductPatchDTO
     {

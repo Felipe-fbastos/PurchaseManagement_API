@@ -1,7 +1,7 @@
 ﻿using PurchaseManagement.Models;
 using System.Text.Json.Serialization;
 
-namespace PurchaseManagement.DTO
+namespace PurchaseManagement.DTO.Purchase.Request
 {
     public class PurchasePostDTO
     {

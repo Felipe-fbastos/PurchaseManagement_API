@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PurchaseManagement.Data;
-using PurchaseManagement.DTO;
+using PurchaseManagement.DTO.Product.Request;
+using PurchaseManagement.DTO.Product.Response;
 using PurchaseManagement.Models;
 
 namespace PurchaseManagement.Controllers
@@ -19,21 +21,22 @@ namespace PurchaseManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProducts()
         {
-            var prod = await _context.Tb_Products.ToListAsync();
+            var product = await _context.Tb_Products.ToListAsync();
 
-            if (!prod.Any())
+            if (!product.Any())
             {
                 return NoContent();    
             }
 
-            return Ok(prod);
-            
+            var response = product.Adapt<List<ProductGetDTO>>();
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(ProductPostDTO dto)
+        public async Task<ActionResult<ProductPostDTO>> PostProduct(ProductPostDTO dto)
         {
             
             if(dto == null)
@@ -41,23 +44,27 @@ namespace PurchaseManagement.Controllers
                 return BadRequest();
             }
 
-            var prod = new Product
+            var existName = await _context.Tb_Client.AnyAsync(n => n.Name == dto.Name);
+
+            if (existName)
             {
-                Name = dto.Name,
-                Price = dto.Price,
-                Quantity = dto.Quantity
-            };
+                return BadRequest("This name of product is already registered");
+            }
+
+            var product = dto.Adapt<Product>();
             
-            await _context.Tb_Products.AddAsync(prod);
+            await _context.Tb_Products.AddAsync(product);
 
             await _context.SaveChangesAsync();
 
-            return Ok(prod);
+            var response = product.Adapt<ProductGetDTO>();
+
+            return Ok(response);
         }
 
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<Product>> PatchProduct(Guid id, ProductPatchDTO dto)
+        public async Task<ActionResult<ProductPatchDTO>> PatchProduct(Guid id, ProductPatchDTO dto)
         {
             var exist = await _context.Tb_Products.FindAsync(id);
 
@@ -65,7 +72,6 @@ namespace PurchaseManagement.Controllers
             {
                 return NotFound();
             }
-
 
             if(dto.Name != null && string.IsNullOrWhiteSpace(dto.Name))
             {
